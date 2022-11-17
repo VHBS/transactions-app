@@ -29,22 +29,11 @@ module.exports = {
           key: 'id'
         },
         field: 'account_id'
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-        field: 'created_at'
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-        field: 'updated_at'
       }
     },
     {
-      underscored: true
+      underscored: true,
+      timestamps: false
     })
   },
   async down (queryInterface) {
