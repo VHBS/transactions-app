@@ -12,6 +12,7 @@ testes.ts
 
 # production
 /build
+database
 
 # misc
 .DS_Store
