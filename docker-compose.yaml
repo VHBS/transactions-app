@@ -1,0 +1,46 @@
+version: '3.9'
+services:
+  frontend:
+    build: ./frontend
+    platform: linux/x86_64
+    restart: always
+    container_name: app_frontend
+    volumes:
+      - './frontend/src:/app/src'
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+  backend:
+    build: ./backend
+    container_name: app_backend
+    platform: linux/x86_64
+    restart: 'always'
+    command: npm run dev
+    ports:
+      - 3001:3001
+    volumes:
+      - './backend/src:/app/src'
+    environment:
+      - PORT=3001
+      - JWT_SECRET=TransactionsApp
+      - DB_USER=root
+      - DB_PASS=123456
+      - DB_HOST=db_postgresql
+      - DB_NAME=TransactionsData
+      - DB_PORT=5432
+      - DB_DIALECT=postgres
+    depends_on:
+      - db_postgresql
+  db_postgresql:
+    image: postgres:14
+    container_name: db_postgresql
+    platform: linux/x86_64
+    restart: 'always'
+    volumes:
+      - './database:/var/lib/postgresql/data'
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_USER=root
