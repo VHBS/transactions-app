@@ -53,9 +53,4 @@ Account.init(
   }
 )
 
-// User.hasOne(Collaborator, {
-//   foreignKey: 'userId',
-//   as: 'collaborator'
-// })
-
 export default Account
