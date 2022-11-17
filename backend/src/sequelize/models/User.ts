@@ -51,20 +51,11 @@ User.init(
       field: 'account_id',
       allowNull: false,
       unique: true
-    },
-    createdAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-      field: 'created_at'
-    },
-    updatedAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-      field: 'updated_at'
     }
   },
   {
     underscored: true,
+    timestamps: false,
     sequelize: db,
     modelName: 'User',
     tableName: 'Users',
@@ -84,7 +75,7 @@ User.prototype.validPassword = function (password: string): boolean {
 
 Account.hasOne(User, {
   foreignKey: 'accountId',
-  as: 'account'
+  as: 'user'
 })
 
 export default User
