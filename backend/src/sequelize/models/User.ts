@@ -13,18 +13,13 @@ class User extends Model implements IUser {
 
   declare accountId: string
 
-  declare createdAt: Date
-
-  declare updatedAt: Date
-
   declare validPassword: (password: string) => boolean
 
   get getData () {
     return {
       id: this.id,
       userName: this.userName,
-      createdAt: this.createdAt,
-      updatedAt: this.createdAt
+      accountId: this.accountId
     }
   }
 }
