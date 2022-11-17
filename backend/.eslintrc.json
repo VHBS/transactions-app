@@ -18,7 +18,7 @@
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
-  "ignorePatterns": ["*.js"],
+  "ignorePatterns": ["jest.config.js"],
   "rules": {
     "no-param-reassign":"off",
     "func-names": "off",
