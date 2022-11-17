@@ -25,6 +25,9 @@ module.exports = {
         defaultValue: Sequelize.NOW,
         field: 'updated_at'
       }
+    },
+    {
+      underscored: true
     })
   },
   async down (queryInterface) {
