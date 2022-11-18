@@ -13,13 +13,16 @@ class User extends Model implements IUser {
 
   declare accountId: string
 
+  declare account?: Account
+
   declare validPassword: (password: string) => boolean
 
   get getData () {
     return {
       id: this.id,
       userName: this.userName,
-      accountId: this.accountId
+      accountId: this.accountId,
+      account: this.account
     }
   }
 }
@@ -71,6 +74,11 @@ User.prototype.validPassword = function (password: string): boolean {
 Account.hasOne(User, {
   foreignKey: 'accountId',
   as: 'user'
+})
+
+User.belongsTo(Account, {
+  foreignKey: 'accountId',
+  as: 'account'
 })
 
 export default User

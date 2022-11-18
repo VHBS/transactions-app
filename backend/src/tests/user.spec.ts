@@ -1,6 +1,6 @@
 import User from '../sequelize/models/User'
 import CreateUserModel from '../models/user/create/CreateUserModel'
-import { createUserModelMock, inputCreateUserModelMock } from './mocks/userMocks'
+import { createUserModelMock, findUserModelMock, inputCreateUserModelMock } from './mocks/userMocks'
 import FindUserModel from '../models/user/findByUserName/FindUserModel'
 
 describe('Testing User Model', () => {
@@ -15,10 +15,10 @@ describe('Testing User Model', () => {
   describe('Find User', () => {
     it('Success', async () => {
       const findUserModel = new FindUserModel(User)
-      jest.spyOn(User, 'findOne').mockResolvedValue(createUserModelMock.getData as User)
+      jest.spyOn(User, 'findOne').mockResolvedValue(findUserModelMock as User)
       const findedUser = await findUserModel.execute('Airton')
 
-      expect(findedUser).toBe(createUserModelMock.getData)
+      expect(findedUser).toBe(findUserModelMock)
     })
 
     it('Fail', async () => {

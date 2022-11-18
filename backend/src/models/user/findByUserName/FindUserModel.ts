@@ -1,4 +1,5 @@
 import { UserType } from '../../../@types/user'
+import Account from '../../../sequelize/models/Account'
 import User from '../../../sequelize/models/User'
 import IFindUserModel from './interface/IFindUserModel'
 
@@ -10,7 +11,15 @@ export default class FindUserModel implements IFindUserModel<UserType> {
   }
 
   public execute = async (userName: string): Promise<UserType | null> => {
-    const newUser = await this._userRepository.findOne({ where: { userName } })
+    const newUser = await this._userRepository.findOne({
+      where: { userName },
+      include: [
+        {
+          model: Account,
+          as: 'account'
+        }
+      ]
+    })
 
     return newUser
   }
