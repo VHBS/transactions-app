@@ -1,6 +1,6 @@
 import User from '../sequelize/models/User'
 import CreateUserModel from '../models/user/create/CreateUserModel'
-import { createUserModelMock, findUserModelMock, inputCreateUserModelMock, userAlreadyExistMessageMock } from './mocks/userMocks'
+import { createUserModelMock, findUserModelMock, inputCreateUserModelMock } from './mocks/userMocks'
 import FindUserModel from '../models/user/findByUserName/FindUserModel'
 import CreateUserService from '../services/user/create/CreateUserService'
 import CreateAccountModel from '../models/account/create/CreateAccountModel'
@@ -59,7 +59,7 @@ describe('Testing user service', () => {
       jest.spyOn(User, 'findOne').mockResolvedValue(findUserModelMock as User)
       const newUser = await createUserService.execute(inputCreateUserModelMock)
 
-      expect(newUser).toStrictEqual(userAlreadyExistMessageMock)
+      expect(newUser).toStrictEqual(null)
     })
   })
 })

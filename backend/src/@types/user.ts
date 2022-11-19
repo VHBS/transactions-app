@@ -4,13 +4,7 @@ export type UserType = {
   accountId?: string;
 }
 
-export type MessageErrorType = {
-  message: string
-}
-
-export type CreateUserServiceTypeSuccess = {
+export type CreateUserServiceType = {
   user: UserType
   token: string
 }
-
-export type CreateUserServiceType = CreateUserServiceTypeSuccess | MessageErrorType
