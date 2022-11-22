@@ -1,7 +1,6 @@
-const inputCreateUserModelMock = {
-  accountId: 'd0486290-49e6-4f65-9919-df4378baae0b',
+const inputCreateUserMock = {
   userName: 'Airton',
-  password: '22222'
+  password: 'Airton12'
 }
 
 const createUserModelMock = {
@@ -25,9 +24,12 @@ const findUserModelMock = {
 
 const userAlreadyExistMessageMock = { message: 'User already exists' }
 
+const tokenMock = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoiMjRlNjU2MGYtYzMwZS00NDJkLTk5N2UtM2M5OTQyN2U1YjdmIiwidXNlck5hbWUiOiJMaWdpYTEwIiwiYWNjb3VudElkIjoiZTc4MmY5ZDEtOTFkMy00ZTRiLThhMGEtOTVmNmMzYWE3OThmIiwiYWNjb3VudCI6eyJpZCI6ImU3ODJmOWQxLTkxZDMtNGU0Yi04YTBhLTk1ZjZjM2FhNzk4ZiIsImJhbGFuY2UiOjEwMDAwfX0sImlhdCI6MTY2OTEzODkyNCwiZXhwIjoxNjY5MjI1MzI0fQ.bS15zAeL0JhnbZCuWKWZCBE8gOs2gy9rSQjJjD3YdHA'
+
 export {
-  inputCreateUserModelMock,
+  inputCreateUserMock,
   createUserModelMock,
   findUserModelMock,
-  userAlreadyExistMessageMock
+  userAlreadyExistMessageMock,
+  tokenMock
 }
