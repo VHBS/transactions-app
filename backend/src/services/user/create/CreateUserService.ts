@@ -5,7 +5,6 @@ import ICreateUserModel from '../../../models/user/create/interface/ICreateUserM
 import IFindUserModel from '../../../models/user/findByUserName/interface/IFindUserModel'
 import ICreateUserService from './interface/ICreateUserService'
 import Jwt from '../../../utils/jwt'
-// import { MessageErrorType } from '../../../@types/error'
 
 export default class CreateUserService implements ICreateUserService<CreateUserServiceType> {
   private _createUserModel: ICreateUserModel<UserType>
@@ -29,10 +28,10 @@ export default class CreateUserService implements ICreateUserService<CreateUserS
     if (userExists) return null
 
     const newAccount = await this._createAccountModel.execute()
-
     userToCreate.accountId = newAccount.id
 
     const createdUser = await this._createUserModel.execute(userToCreate)
+    createdUser.account = newAccount
 
     const token = Jwt.sign(createdUser)
 
