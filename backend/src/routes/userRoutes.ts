@@ -1,8 +1,8 @@
 import { Router } from 'express'
-import CreateUserFactory, { createUserMiddleware } from '../factories/user/CreateUserFactory'
+import CreateUserFactory, { userDataVerifyMiddleware } from '../factories/user/CreateUserFactory'
 
 const userRoutes = Router()
 
-userRoutes.post('/', createUserMiddleware.execute, CreateUserFactory.execute)
+userRoutes.post('/', userDataVerifyMiddleware.execute, CreateUserFactory.execute)
 
 export default userRoutes

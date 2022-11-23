@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
-import ICreateUserMiddleware from './interface/ICreateUserMiddleware'
+import IUserDataVerifyMiddleware from './interface/IUserDataVerifyMiddleware'
 
-export default class CreateUserMiddleware implements ICreateUserMiddleware {
+export default class UserDataVerifyMiddleware implements IUserDataVerifyMiddleware {
   private _passwordValidateLowerCase: RegExp = /(?=[a-z])/
   private _passwordValidateUpperCase: RegExp = /(?=[A-Z])/
   private _passwordValidateNumber: RegExp = /(?=[0-9])/
