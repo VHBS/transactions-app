@@ -13,7 +13,8 @@
     "eslint:fix": "eslint --fix 'src/**/*.ts'",
     "prettier": "prettier 'src/**/*.ts'",
     "prettier:fix": "prettier --write 'src/**/*.ts'",
-    "test": "jest"
+    "test": "jest --verbose",
+    "test:coverage": "jest --coverage --verbose"
   },
   "repository": {
     "type": "git",

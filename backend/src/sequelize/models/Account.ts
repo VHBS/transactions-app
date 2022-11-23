@@ -6,15 +6,6 @@ class Account extends Model implements IAccount {
   declare id: string
 
   declare balance: number
-
-  declare password: string
-
-  get getData () {
-    return {
-      id: this.id,
-      balance: this.balance
-    }
-  }
 }
 
 Account.init(
