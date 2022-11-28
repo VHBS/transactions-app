@@ -65,13 +65,16 @@ describe('Testing user service', () => {
 
       const newUser = await createUserService.execute(inputCreateUserMock)
 
-      expect(newUser).toStrictEqual({ token: tokenMock, user: createUserModelMock.getData })
+      expect(newUser).toStrictEqual({ status: 201, json: { token: tokenMock, user: createUserModelMock.getData } })
     })
     it('Fail - User already exists', async () => {
       jest.spyOn(User, 'findOne').mockResolvedValue(findUserModelMock as User)
       const newUser = await createUserService.execute(inputCreateUserMock)
 
-      expect(newUser).toStrictEqual(null)
+      expect(newUser).toStrictEqual({
+        status: 409,
+        json: userAlreadyExistMessageMock
+      })
     })
   })
 })
@@ -95,7 +98,10 @@ describe('Testing user controller', () => {
   describe('Create User', () => {
     it('Success', async () => {
       jest.spyOn(createUserService, 'execute')
-        .mockResolvedValue({ token: tokenMock, user: createUserModelMock.getData })
+        .mockResolvedValue({
+          status: 201,
+          json: { token: tokenMock, user: createUserModelMock.getData }
+        })
       await createUserController.execute(mockRequest, mockResponse, mockNext)
 
       expect(mockNext).not.toHaveBeenCalled()
@@ -105,7 +111,10 @@ describe('Testing user controller', () => {
     })
     it('Fail - User already exists', async () => {
       jest.spyOn(createUserService, 'execute')
-        .mockResolvedValue(null)
+        .mockResolvedValue({
+          status: 409,
+          json: userAlreadyExistMessageMock
+        })
       await createUserController.execute(mockRequest, mockResponse, mockNext)
 
       expect(mockNext).not.toHaveBeenCalled()
