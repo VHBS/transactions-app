@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express'
 import { MessageErrorType } from '../../../@types/error'
-import { AuthUserServiceType } from '../../../@types/user'
+import { AuthUserServiceType, UserServiceType } from '../../../@types/user'
 import ICreateUserService from '../../../services/user/create/interface/ICreateUserService'
 import ICreateUserController from './interface/ICreateUserController'
 
 export default class CreateUserController implements ICreateUserController<AuthUserServiceType> {
-  private _createUserService: ICreateUserService<AuthUserServiceType>
+  private _createUserService: ICreateUserService<UserServiceType>
 
-  constructor (createUserService: ICreateUserService<AuthUserServiceType>) {
+  constructor (createUserService: ICreateUserService<UserServiceType>) {
     this._createUserService = createUserService
   }
 
@@ -19,11 +19,12 @@ export default class CreateUserController implements ICreateUserController<AuthU
     try {
       const { userName, password } = req.body
 
-      const createUser = await this._createUserService.execute({ userName, password })
+      const createUserServiceResponse = await this._createUserService.execute({
+        userName,
+        password
+      })
 
-      if (!createUser) return res.status(409).json({ message: 'user already exists' })
-
-      return res.status(201).json(createUser)
+      return res.status(createUserServiceResponse.status).json(createUserServiceResponse.json)
     } catch (error) {
       return next(error)
     }
