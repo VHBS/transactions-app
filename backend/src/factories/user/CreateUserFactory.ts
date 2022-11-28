@@ -5,7 +5,6 @@ import User from '../../sequelize/models/User'
 import FindUserModel from '../../models/user/findByUserName/FindUserModel'
 import CreateUserService from '../../services/user/create/CreateUserService'
 import CreateUserController from '../../controllers/user/create/CreateUserController'
-import UserDataVerifyMiddleware from '../../middlewares/user/UserDataVerifyMiddleware'
 
 // Model
 const createAccountModel = new CreateAccountModel(Account)
@@ -18,8 +17,4 @@ const createUserService = new CreateUserService(findUserModel, createUserModel, 
 // Controller
 const createUserController = new CreateUserController(createUserService)
 
-// Middleware
-const userDataVerifyMiddleware = new UserDataVerifyMiddleware()
-
 export default createUserController
-export { userDataVerifyMiddleware }
