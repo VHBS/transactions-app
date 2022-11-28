@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from 'express'
-import { MessageErrorType } from '../../../@types/error'
-import { AuthUserServiceType, UserServiceType } from '../../../@types/user'
+import { UserServiceType } from '../../../@types/user'
 import ICreateUserService from '../../../services/user/create/interface/ICreateUserService'
 import ICreateUserController from './interface/ICreateUserController'
 
-export default class CreateUserController implements ICreateUserController<AuthUserServiceType> {
+export default class CreateUserController implements ICreateUserController<UserServiceType> {
   private _createUserService: ICreateUserService<UserServiceType>
 
   constructor (createUserService: ICreateUserService<UserServiceType>) {
@@ -15,7 +14,7 @@ export default class CreateUserController implements ICreateUserController<AuthU
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response<AuthUserServiceType | MessageErrorType> | void> => {
+  ): Promise<Response<UserServiceType> | void> => {
     try {
       const { userName, password } = req.body
 
