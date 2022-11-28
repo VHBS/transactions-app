@@ -7,7 +7,7 @@ export type UserType = {
   account?: AccountType
 }
 
-export type CreateUserServiceType = {
+export type AuthUserServiceType = {
   user: UserType
   token: string
 }
