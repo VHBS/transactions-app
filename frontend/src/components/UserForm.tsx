@@ -45,8 +45,7 @@ export default function UserForm({ handleFormAction, showPasswordRules }: props)
       {errorMessage.length > 0
         ? (
           <div>
-            <span style={ { fontWeight: 600 }}>Message: </span>
-            <span style={ { color: 'red', fontWeight: 600 }}>{errorMessage}</span>
+            <span>Message: {errorMessage}</span>
           </div>)
         : null}
 
