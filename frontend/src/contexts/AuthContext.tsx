@@ -4,7 +4,7 @@ import React, {
 import { AuthContextType } from '../@types/authContext'
 import { MessageErrorType } from '../@types/error'
 import { UserType } from '../@types/user'
-import { handleFetchUserRegister } from '../utils/api'
+import { handleFetchUserRegister, handleFetchUserLogin } from '../utils/api'
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
@@ -24,7 +24,26 @@ function AuthProvider({ children }: { children: React.ReactNode }): JSX.Element 
     return responseUserRegister
   }
 
-  const valueMemo = useMemo(() => ({ handleUserRegister, userData, setUserData }), [userData])
+  const handleUserLogin = async(
+    userName: string,
+    password: string
+  ): Promise<UserType | MessageErrorType> => {
+    const responseUserLogin = await handleFetchUserLogin(userName, password) as UserType
+
+    if ('token' in responseUserLogin) {
+      setUserData(responseUserLogin)
+      return responseUserLogin
+    }
+
+    return responseUserLogin
+  }
+
+  const valueMemo = useMemo(() => ({
+    handleUserRegister,
+    userData,
+    setUserData,
+    handleUserLogin
+  }), [userData])
   return (
     <AuthContext.Provider value={valueMemo}>
       { children }
