@@ -19,6 +19,7 @@
   ],
   "rules": {
     // "space-before-function-paren": "off",
+    "@typescript-eslint/no-unnecessary-type-assertion": "off",
     "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/space-before-function-paren": "off",
     "no-param-reassign": "off",
