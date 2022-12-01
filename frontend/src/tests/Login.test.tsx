@@ -11,7 +11,7 @@ import axios from 'axios'
 
 import { AuthProvider } from '../contexts/AuthContext'
 import App from '../App'
-import { axiosPostMock, userAlreadyExistMessageMock } from './mocks/axios/userMock'
+import { axiosPostMock, userAlreadyExistMessageMock, userNotExistMessageMock } from './mocks/axios/userMock'
 
 afterEach(cleanup)
 
@@ -28,7 +28,7 @@ describe('Testing Login Component', () => {
     const headerPagerRegister = screen.getByText(/register/i)
     expect(headerPagerRegister).toBeInTheDocument()
 
-    const inputUserName = screen.getByLabelText(/user name/i)
+    const inputUserName = screen.getByLabelText(/user name/i) as HTMLInputElement
     expect(inputUserName).toBeInTheDocument()
 
     const inputPassword = screen.getByLabelText(/password/i) as HTMLInputElement
@@ -44,16 +44,17 @@ describe('Testing Login Component', () => {
     const headerPageHome = await waitFor(() => screen.getByText(/home/i))
     expect(headerPageHome).toBeInTheDocument()
   })
-  test('Fail - User already exists', async () => {
+
+  test('Fail - User not exists', async () => {
     renderWithRouter(
       <AuthProvider>
         <App />
       </AuthProvider>
     )
 
-    jest.spyOn(axios, 'post').mockResolvedValue(userAlreadyExistMessageMock)
+    jest.spyOn(axios, 'post').mockRejectedValue({ response: userNotExistMessageMock })
 
-    const inputUserName = screen.getByLabelText(/user name/i)
+    const inputUserName = screen.getByLabelText(/user name/i) as HTMLInputElement
     const inputPassword = screen.getByLabelText(/password/i) as HTMLInputElement
     const buttonConfirmForm = screen.getByText(/confirm/i) as HTMLButtonElement
 
@@ -61,7 +62,7 @@ describe('Testing Login Component', () => {
     fireEvent.change(inputPassword, { target: { value: 'Aa123456' } })
     fireEvent.click(buttonConfirmForm)
 
-    const messageError = await waitFor(() => screen.getByText(/message: user already exists/i))
+    const messageError = await waitFor(() => screen.getByText(/message: user not exists/i))
     expect(messageError).toBeInTheDocument()
 
     const headerPageHome = await waitFor(() => screen.queryByText(/home/i))

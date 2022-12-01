@@ -16,7 +16,10 @@ const axiosPostMock = {
 
 const userAlreadyExistMessageMock = { data: { message: 'user already exists' } }
 
+const userNotExistMessageMock = { data: { message: 'user not exists' } }
+
 export {
   axiosPostMock,
-  userAlreadyExistMessageMock
+  userAlreadyExistMessageMock,
+  userNotExistMessageMock
 }

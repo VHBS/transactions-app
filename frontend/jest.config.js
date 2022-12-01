@@ -13,5 +13,16 @@ module.exports = {
   ],
   testEnvironment: 'jest-environment-jsdom',
   preset: 'ts-jest',
+  collectCoverageFrom: [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "!src/react-app-env.d.ts",
+    "!src/index.tsx"
+  ],
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "/tests/",
+    "@types"
+  ],
   setupFilesAfterEnv: ['<rootDir>/src/tests/setupTests.ts']
 }
