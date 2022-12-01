@@ -1,12 +1,12 @@
 import { AccountType } from '../../../@types/account'
-import { CreateUserServiceType, UserType } from '../../../@types/user'
+import { UserServiceType, UserType } from '../../../@types/user'
 import ICreateAccountModel from '../../../models/account/create/interface/ICreateAccountModel'
 import ICreateUserModel from '../../../models/user/create/interface/ICreateUserModel'
 import IFindUserModel from '../../../models/user/findByUserName/interface/IFindUserModel'
 import ICreateUserService from './interface/ICreateUserService'
 import Jwt from '../../../utils/jwt'
 
-export default class CreateUserService implements ICreateUserService<CreateUserServiceType> {
+export default class CreateUserService implements ICreateUserService<UserServiceType> {
   private _createUserModel: ICreateUserModel<UserType>
   private _findUserModel: IFindUserModel<UserType>
   private _createAccountModel: ICreateAccountModel<AccountType>
@@ -21,11 +21,15 @@ export default class CreateUserService implements ICreateUserService<CreateUserS
     this._createAccountModel = createAccountModel
   }
 
-  public execute = async (userToCreate: UserType): Promise<CreateUserServiceType | null> => {
+  public execute = async (userToCreate: UserType): Promise<UserServiceType> => {
     const userExists = await this._findUserModel.execute(userToCreate.userName)
 
-    // Fail - User already exists
-    if (userExists) return null
+    if (userExists) {
+      return {
+        status: 409,
+        json: { message: 'user already exists' }
+      }
+    }
 
     const newAccount = await this._createAccountModel.execute()
     userToCreate.accountId = newAccount.id
@@ -35,10 +39,12 @@ export default class CreateUserService implements ICreateUserService<CreateUserS
 
     const token = Jwt.sign(createdUser)
 
-    // Success - User created
     return {
-      token,
-      user: createdUser
+      status: 201,
+      json: {
+        token,
+        user: createdUser
+      }
     }
   }
 }

@@ -9,7 +9,7 @@ import { createAccountModelMock } from './mocks/accountMoks'
 import Jwt from '../utils/jwt'
 import { NextFunction, Request, Response } from 'express'
 import CreateUserController from '../controllers/user/create/CreateUserController'
-import CreateUserMiddleware from '../middlewares/user/CreateUserMiddleware'
+import UserDataVerifyMiddleware from '../middlewares/user/UserDataVerifyMiddleware'
 
 // Models
 const createAccountModel = new CreateAccountModel(Account)
@@ -26,7 +26,7 @@ const createUserService = new CreateUserService(
 const createUserController = new CreateUserController(createUserService)
 
 // Middlewares
-const createUserMiddleware = new CreateUserMiddleware()
+const userDataVerifyMiddleware = new UserDataVerifyMiddleware()
 describe('Testing user model', () => {
   describe('Create user', () => {
     it('Success', async () => {
@@ -65,13 +65,16 @@ describe('Testing user service', () => {
 
       const newUser = await createUserService.execute(inputCreateUserMock)
 
-      expect(newUser).toStrictEqual({ token: tokenMock, user: createUserModelMock.getData })
+      expect(newUser).toStrictEqual({ status: 201, json: { token: tokenMock, user: createUserModelMock.getData } })
     })
     it('Fail - User already exists', async () => {
       jest.spyOn(User, 'findOne').mockResolvedValue(findUserModelMock as User)
       const newUser = await createUserService.execute(inputCreateUserMock)
 
-      expect(newUser).toStrictEqual(null)
+      expect(newUser).toStrictEqual({
+        status: 409,
+        json: userAlreadyExistMessageMock
+      })
     })
   })
 })
@@ -95,7 +98,10 @@ describe('Testing user controller', () => {
   describe('Create User', () => {
     it('Success', async () => {
       jest.spyOn(createUserService, 'execute')
-        .mockResolvedValue({ token: tokenMock, user: createUserModelMock.getData })
+        .mockResolvedValue({
+          status: 201,
+          json: { token: tokenMock, user: createUserModelMock.getData }
+        })
       await createUserController.execute(mockRequest, mockResponse, mockNext)
 
       expect(mockNext).not.toHaveBeenCalled()
@@ -105,7 +111,10 @@ describe('Testing user controller', () => {
     })
     it('Fail - User already exists', async () => {
       jest.spyOn(createUserService, 'execute')
-        .mockResolvedValue(null)
+        .mockResolvedValue({
+          status: 409,
+          json: userAlreadyExistMessageMock
+        })
       await createUserController.execute(mockRequest, mockResponse, mockNext)
 
       expect(mockNext).not.toHaveBeenCalled()
@@ -139,7 +148,7 @@ describe('Testing user middleware', () => {
 
   describe('Create User', () => {
     it('Success', async () => {
-      await createUserMiddleware.execute({
+      await userDataVerifyMiddleware.execute({
         body: inputCreateUserMock
       } as Request,
       mockResponse,
@@ -148,7 +157,7 @@ describe('Testing user middleware', () => {
       expect(mockNext).toHaveBeenCalled()
     })
     it('Fail - userName is required', async () => {
-      await createUserMiddleware.execute({
+      await userDataVerifyMiddleware.execute({
         body: {
           userName: '',
           password: inputCreateUserMock.password
@@ -161,7 +170,7 @@ describe('Testing user middleware', () => {
       expect(mockResponse.json).toHaveBeenCalledWith({ message: 'userName is required' })
     })
     it('Fail - userName needs 3 character or more', async () => {
-      await createUserMiddleware.execute({
+      await userDataVerifyMiddleware.execute({
         body: {
           userName: 'Ai',
           password: inputCreateUserMock.password
@@ -174,7 +183,7 @@ describe('Testing user middleware', () => {
       expect(mockResponse.json).toHaveBeenCalledWith({ message: 'userName needs 3 character or more' })
     })
     it('Fail - password is required', async () => {
-      await createUserMiddleware.execute({
+      await userDataVerifyMiddleware.execute({
         body: {
           userName: 'Airton',
           password: ''
@@ -187,7 +196,7 @@ describe('Testing user middleware', () => {
       expect(mockResponse.json).toHaveBeenCalledWith({ message: 'password is required' })
     })
     it('Fail - password must have 8 or more characters', async () => {
-      await createUserMiddleware.execute({
+      await userDataVerifyMiddleware.execute({
         body: {
           userName: 'Airton',
           password: 'Ai12'
@@ -200,7 +209,7 @@ describe('Testing user middleware', () => {
       expect(mockResponse.json).toHaveBeenCalledWith({ message: 'password must have 8 or more characters' })
     })
     it('Fail - password must have numbers', async () => {
-      await createUserMiddleware.execute({
+      await userDataVerifyMiddleware.execute({
         body: {
           userName: 'Airton',
           password: 'AirtonAirton'
@@ -213,7 +222,7 @@ describe('Testing user middleware', () => {
       expect(mockResponse.json).toHaveBeenCalledWith({ message: 'password must have numbers' })
     })
     it('Fail - password must have uppercase letters', async () => {
-      await createUserMiddleware.execute({
+      await userDataVerifyMiddleware.execute({
         body: {
           userName: 'Airton',
           password: 'airton123456'
@@ -226,7 +235,7 @@ describe('Testing user middleware', () => {
       expect(mockResponse.json).toHaveBeenCalledWith({ message: 'password must have uppercase letters' })
     })
     it('Fail - password must have lowercase letters', async () => {
-      await createUserMiddleware.execute({
+      await userDataVerifyMiddleware.execute({
         body: {
           userName: 'Airton',
           password: 'AIRTON123456'

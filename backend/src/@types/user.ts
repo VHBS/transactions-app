@@ -1,4 +1,5 @@
 import { AccountType } from './account'
+import { MessageErrorType } from './error'
 
 export type UserType = {
   userName: string;
@@ -7,7 +8,12 @@ export type UserType = {
   account?: AccountType
 }
 
-export type CreateUserServiceType = {
+export type AuthUserServiceType = {
   user: UserType
   token: string
+}
+
+export type UserServiceType = {
+  json: MessageErrorType | AuthUserServiceType
+  status: number
 }
