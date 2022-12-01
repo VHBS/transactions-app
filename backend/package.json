@@ -7,13 +7,14 @@
     "start": "node build/index.js",
     "build": "tsc --build tsconfig.build.json",
     "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
-    "predev": "npm run db:reset",
+    "predev": "npm run build && npm run db:reset",
     "dev": "npx ts-node-dev --respawn --transpile-only --ignore-watch node_modules src/index.ts",
     "eslint": "eslint 'src/**/*.ts'",
     "eslint:fix": "eslint --fix 'src/**/*.ts'",
     "prettier": "prettier 'src/**/*.ts'",
     "prettier:fix": "prettier --write 'src/**/*.ts'",
-    "test": "jest"
+    "test": "jest --verbose",
+    "test:coverage": "jest --coverage --verbose"
   },
   "repository": {
     "type": "git",

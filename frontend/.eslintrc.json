@@ -1,0 +1,52 @@
+{
+  "env": {
+    "browser": true,
+    "jest": true,
+    "es2021": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "standard-with-typescript"
+  ],
+  "overrides": [],
+  "parserOptions": {
+    "project": "tsconfig.json",
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    // "space-before-function-paren": "off",
+    "@typescript-eslint/no-unnecessary-type-assertion": "off",
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/space-before-function-paren": "off",
+    "no-param-reassign": "off",
+    "func-names": "off",
+    "no-console": "off",
+    "@typescript-eslint/indent": [
+      "error",
+      2
+    ],
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-var-requires": "off",
+    "import/no-import-module-exports": 0,
+    "no-underscore-dangle": 0,
+    "class-methods-use-this": [
+      "error",
+      {
+        "enforceForClassFields": false
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true,
+        "optionalDependencies": false,
+        "peerDependencies": false
+      }
+    ]
+  }
+}
