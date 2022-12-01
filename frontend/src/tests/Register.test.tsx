@@ -14,7 +14,6 @@ import App from '../App'
 import { axiosPostMock, userAlreadyExistMessageMock } from './mocks/axios/userMock'
 afterEach(cleanup)
 
-
 describe('Testing Register Component', () => {
   test('Success', async () => {
     renderWithRouter(
@@ -27,7 +26,7 @@ describe('Testing Register Component', () => {
 
     const buttonRegister = screen.getByText(/register/i) as HTMLButtonElement
     expect(buttonRegister).toBeInTheDocument()
-    
+
     fireEvent.click(buttonRegister)
 
     const inputUserName = screen.getByLabelText(/user name/i) as HTMLInputElement
@@ -38,7 +37,7 @@ describe('Testing Register Component', () => {
 
     const buttonConfirmForm = screen.getByText(/confirm/i) as HTMLButtonElement
     expect(buttonConfirmForm).toBeInTheDocument()
-    
+
     const passwordRulesElement = screen.getByText(/password rules/i)
     expect(passwordRulesElement).toBeInTheDocument()
 
@@ -48,6 +47,12 @@ describe('Testing Register Component', () => {
 
     const headerPageHome = await waitFor(() => screen.getByText(/home/i))
     expect(headerPageHome).toBeInTheDocument()
+
+    const userNameHomePage = screen.getByText('Victor')
+    expect(userNameHomePage).toBeInTheDocument()
+
+    const balanceHomePage = screen.getByText('R$ 100,00')
+    expect(balanceHomePage).toBeInTheDocument()
   })
   test('Fail - User already exists', async () => {
     renderWithRouter(
@@ -58,10 +63,9 @@ describe('Testing Register Component', () => {
 
     jest.spyOn(axios, 'post').mockRejectedValue({ response: userAlreadyExistMessageMock })
 
-
     const buttonRegister = screen.getByText(/register/i) as HTMLButtonElement
     expect(buttonRegister).toBeInTheDocument()
-    
+
     fireEvent.click(buttonRegister)
 
     const inputUserName = screen.getByLabelText(/user name/i) as HTMLInputElement
@@ -72,7 +76,7 @@ describe('Testing Register Component', () => {
 
     const buttonConfirmForm = screen.getByText(/confirm/i) as HTMLButtonElement
     expect(buttonConfirmForm).toBeInTheDocument()
-    
+
     const passwordRulesElement = screen.getByText(/password rules/i)
     expect(passwordRulesElement).toBeInTheDocument()
 

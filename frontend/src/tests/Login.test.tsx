@@ -11,7 +11,7 @@ import axios from 'axios'
 
 import { AuthProvider } from '../contexts/AuthContext'
 import App from '../App'
-import { axiosPostMock, userAlreadyExistMessageMock, userNotExistMessageMock } from './mocks/axios/userMock'
+import { axiosPostMock, userNotExistMessageMock } from './mocks/axios/userMock'
 
 afterEach(cleanup)
 
@@ -43,6 +43,12 @@ describe('Testing Login Component', () => {
 
     const headerPageHome = await waitFor(() => screen.getByText(/home/i))
     expect(headerPageHome).toBeInTheDocument()
+
+    const userNameHomePage = screen.getByText('Victor')
+    expect(userNameHomePage).toBeInTheDocument()
+
+    const balanceHomePage = screen.getByText('R$ 100,00')
+    expect(balanceHomePage).toBeInTheDocument()
   })
 
   test('Fail - User not exists', async () => {
